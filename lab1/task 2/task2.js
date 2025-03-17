@@ -93,7 +93,7 @@ function drawLabels(svg) {
     const step = scale;
 
     // Позначки на осях
-    for (let x = step; x < width / 2; x += step) {
+    for (let x = step*2; x < width / 2; x += step*2) {
         svg.append("text")
             .attr("x", centerX + x)
             .attr("y", centerY + 15)
@@ -108,7 +108,7 @@ function drawLabels(svg) {
             .text(-x / scale);
     }
 
-    for (let y = step; y < height / 2; y += step) {
+    for (let y = step*2; y < height / 2; y += step*2) {
         svg.append("text")
             .attr("x", centerX + 5)
             .attr("y", centerY + y)
@@ -126,7 +126,18 @@ function drawLabels(svg) {
 
 function plotTrajectory() {
     let { svg, height, width } = add();
+    let inputs = document.querySelectorAll("input");
+    let isValid = true;
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            isValid = false;
+        }
+    });
 
+    if (!isValid) {
+        alert("Будь ласка, введіть правильні значення для всіх полів.");
+        return;
+    }
     let x0 = parseFloat(document.getElementById("x0").value) * scale; // Перемножуємо на масштаб
     let y0 = parseFloat(document.getElementById("y0").value) * scale; // Перемножуємо на масштаб
     let ang = parseFloat(document.getElementById("ang").value);

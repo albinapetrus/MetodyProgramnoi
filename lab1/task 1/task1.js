@@ -53,17 +53,29 @@ function drawLabels() {
     ctx.font = "14px Arial";
     
     // Позначки на осях
-    for (let x = step; x < width / 2; x += step) {
+    for (let x = step*2; x < width / 2; x += step*2) {
         ctx.fillText(x / step, centerX + x, centerY + 15);
         ctx.fillText(-x / step, centerX - x, centerY + 15);
     }
-    for (let y = step; y < height / 2; y += step) {
+    for (let y = step*2; y < height / 2; y += step*2) {
         ctx.fillText(-y / step, centerX + 5, centerY + y);
         ctx.fillText(y / step, centerX + 5, centerY - y);
     }
 }
 
 function plotTrajectory() {
+    let inputs = document.querySelectorAll("input");
+    let isValid = true;
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            isValid = false;
+        }
+    });
+
+    if (!isValid) {
+        alert("Будь ласка, введіть правильні значення для всіх полів.");
+        return;
+    }
     let x0 = parseFloat(document.getElementById("x0").value)*25;
     let y0 = parseFloat(document.getElementById("y0").value)*25;
     let ang = parseFloat(document.getElementById("ang").value);
