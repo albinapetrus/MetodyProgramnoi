@@ -7,13 +7,15 @@
 <script  src="task1.js"></script>
     <style>
         .div1{
-            padding-right: 50px;
+            position: absolute;
+            left: 64%;
+            top: 1%;
         }
        
         .div{
-            margin-top: 3%;
-            margin-left: 105%;
-margin-bottom: 150px;
+            top: 50%;
+            position: absolute;
+            left: 86%;
         }
         
         body{
@@ -22,7 +24,7 @@ margin-bottom: 150px;
             align-items: center;
         }
        #myCanvas{
-      
+      position: relative;
 
            margin-left: 5em;
            margin-top: 2em;
@@ -44,40 +46,42 @@ margin-bottom: 150px;
     </style>
 </head>
 <body>
-    <form class="form">
+    <form class="form" oninput="validateForm()">
         <div>
-            <label for="x0">Кордината початкової точки по осі x, на декартовій площині:</label>
-            <input type="number" id="x0" name="x0" min="-100" max="100" step="0.0001" />
+            <label for="x0">Кордината початкової точки по осі x,(в м):</label>
+            <input type="number" id="x0" name="x0" min="-12" max="12" step="0.0001" required title="введіть значення від -12 до 12!"/>
         </div><br/>
         <div>
-            <label for="y0">Кордината початкової точки по осі y, на декартовій площині:</label>
-            <input type="number" id="y0" name="y0" min="-100" max="100" step="0.0001" />
+            <label for="y0">Кордината початкової точки по осі y,(в м):</label>
+            <input type="number" id="y0" name="y0" min="-12" max="12" step="0.0001" required title="введіть значення від -12 до 12!"/>
         </div><br/>
         <div>
             <label for="ang">Кут:</label>
-            <input type="number" id="ang" name="ang" min="0" max="360" step="0.0001" />
+            <input type="number" id="ang" name="ang" min="-360" max="360" step="0.0001" required title="введіть значення від -360 до 360!"/>
             <label for="ang">(в градусах)</label>
         </div><br/>
         <div>
             <label for="v0">Початкова швидкість:</label>
-            <input type="number" id="v0" name="v0" min="0" max="1000" step="0.0001" />
-            <label for="v0"><var>(в м/c^2)</var></label>
+            <input type="number" id="v0" name="v0" min="0" max="1000" step="0.0001" required title="введіть значення від 0 до 1000!"/>
+            <label for="v0"><var>(в м/c)</var></label>
         </div><br/>
         <div>
             <label for="pr">Прискорення:</label>
-            <input type="number" id="pr" name="pr" min="-1000" max="1000" step="0.0001" />
+            <input type="number" id="pr" name="pr" min="-1000" max="1000" step="0.0001" required title="введіть значення від -1000 до 1000!"/>
             <label for="pr"><var>(в м/c^2)</var></label>
         </div><br/>
         <div>
             <label for="gr">Колір графіку:</label>
-            <input type="color" id="gr" name="gr"  />
+            <input type="color" id="gr" name="gr" title="виберіть колір" />
         </div><br/>
         <button type="button" onclick="plotTrajectory()">Побудувати траєкторію</button><br/>
         <button type="button" onclick="clearCanvas()">Очистити</button>
     </form>
-    <div class="div1"><var>y, м</var>
-
+    
+<div>
     <canvas id="myCanvas" width="650px" height="650px" style="border:1px dotted #942e2e;"></canvas>
     <div class="div"><var>x, м</var></div>
+    <div class="div1"><var>y, м</var>
+    </div>
 </div>
 </html>

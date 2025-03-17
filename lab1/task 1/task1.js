@@ -92,8 +92,19 @@ function plotTrajectory() {
 }
 
 function clearCanvas() {
-    ctx.clearRect(0, 0, width, height); // очищення полотна
+    ctx.clearRect(0, 0, width, height); 
     drawGrid();
     drawAxes();
     drawLabels();
+}
+
+function validateForm() {
+    let inputs = document.querySelectorAll("input");
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            input.style.border = "2px solid red";
+        } else {
+            input.style.border = "2px solid green";
+        }
+    });
 }
