@@ -9,24 +9,31 @@
     </script>
    <script src="task2.js"></script>
     <style>
+        
            body{
             display: flex;
-            /*justify-content: center;*/
+           
             align-items: center;
+            overflow: hidden;
+            
+          
         }
        #graphContainer{
-           margin-left: 5em;
-           margin-top: 2em;
+           /*margin-left: 5em;*/
+           /*margin-top: 2em;*/
             /*margin-top: 30px;*/
            width: 650px;
            height: 650px;
-          
+         
+        margin: 10em;
+margin-bottom: 10px;
+    margin-top: 10px;
         
         }
         .form {
             max-width: 350px;
             width: 100%;
-            margin: 5em;
+            margin: 3em 0 5rem 5em;
             margin-top: 3rem;
             display: grid;
             justify-content: center;
@@ -36,35 +43,40 @@
     </style>
 </head>
 <body>
-    <form class="form">
+    <form class="form" oninput="validateForm()">
         <div>
-            <label for="x0">Координата x0:</label>
-            <input type="number" id="x0" name="x0" min="-100" max="100" step="0.0001" />
+            <label for="x0">Кордината початкової точки по осі x,(в м):</label>
+            <input type="number" id="x0" name="x0" min="-12" max="12" step="0.0001" required title="введіть значення від -12 до 12!"/>
         </div><br/>
         <div>
-            <label for="y0">Координата y0:</label>
-            <input type="number" id="y0" name="y0" min="-100" max="100" step="0.0001" />
+            <label for="y0">Кордината початкової точки по осі y,(в м):</label>
+            <input type="number" id="y0" name="y0" min="-12" max="12" step="0.0001" required title="введіть значення від -12 до 12!"/>
         </div><br/>
         <div>
             <label for="ang">Кут:</label>
-            <input type="number" id="ang" name="ang" min="0" max="360" step="0.0001" />
+            <input type="number" id="ang" name="ang" min="-360" max="360" step="0.0001" required title="введіть значення від -360 до 360!"/>
+            <label for="ang">(в градусах)</label>
         </div><br/>
         <div>
             <label for="v0">Початкова швидкість:</label>
-            <input type="number" id="v0" name="v0" min="0" max="1000" step="0.0001" />
+            <input type="number" id="v0" name="v0" min="0" max="1000" step="0.0001" required title="введіть значення від 0 до 1000!"/>
+            <label for="v0"><var>(в м/c)</var></label>
         </div><br/>
         <div>
             <label for="pr">Прискорення:</label>
-            <input type="number" id="pr" name="pr" min="-1000" max="1000" step="0.0001" />
+            <input type="number" id="pr" name="pr" min="-1000" max="1000" step="0.0001" required title="введіть значення від -1000 до 1000!"/>
+            <label for="pr"><var>(в м/c^2)</var></label>
         </div><br/>
         <div>
-            <label for="gr">Графік:</label>
-            <input type="color" id="gr" name="gr"  />
+            <label for="gr">Колір графіку:</label>
+            <input type="color" id="gr" name="gr" title="виберіть колір" />
         </div><br/>
         <button type="button" onclick="plotTrajectory()">Побудувати траєкторію</button><br/>
         <button type="button" onclick="clearGraph()">Очистити</button>
     </form>
-
+    
+    
     <div id="graphContainer"></div>
+
 </body>
 </html>
