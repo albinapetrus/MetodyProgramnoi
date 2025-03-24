@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <title>Laboratorna number two, task number  two </title>
+        <meta charset="UTF-8">
+        <script src="task2.js" ></script>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="task2.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form class="form" oninput="validateForm()">
+    <input type="number" id="1" name="1" min="-100" max="100" step="0.0001" required>
+    <label for="gr">Колір графіку:</label>
+    <input type="color" id="gr" name="gr" title="виберіть колір" />
+</div><br/>
+<button type="button" onclick="plotTrajectory()">Побудувати траєкторію</button><br/>
+<button type="button" onclick="clearCanvas()">Очистити</button>
+</form>
+
+    
+    <div id="graphContainer"></div>
+    <div class="div"><var>x, м</var></div>
+    <div class="div1"><var>y, м</var></div>
+    
+    </body>
+</html>

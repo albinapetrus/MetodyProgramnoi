@@ -8,8 +8,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-<form>
+<form class="form" oninput="validateForm()">
     <input type="number" id="1" name="1" min="-100" max="100" step="0.0001" required>
+    <label for="gr">Колір графіку:</label>
+    <input type="color" id="gr" name="gr" title="виберіть колір" />
+</div><br/>
+<button type="button" onclick="plotTrajectory()">Побудувати траєкторію</button><br/>
+<button type="button" onclick="clearCanvas()">Очистити</button>
 </form>
+<div>
+    <canvas id="myCanvas" width="650px" height="650px" style="border:1px dotted #942e2e;"></canvas>
+    <div class="div"><var>x, м</var></div>
+    <div class="div1"><var>y, м</var>
+    </div>
     </body>
 </html>
