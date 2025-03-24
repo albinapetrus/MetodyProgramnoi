@@ -38,3 +38,11 @@ margin-top: 2em;
     background-color: gainsboro;
     padding: 30px;
 }
+#outputtext{
+    position: fixed;
+    bottom: 40px;
+    margin-left: 75px;
+}
+input[type="number"]{
+    width: 50%;
+}

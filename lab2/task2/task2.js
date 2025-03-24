@@ -91,13 +91,13 @@ function drawLabels(svg) {
             .attr("y", centerY + 15)
             .attr("font-size", "14px")
             .attr("fill", "black")
-            .text(x / scale);
+            .text(x );
         svg.append("text")
             .attr("x", centerX - x)
             .attr("y", centerY + 15)
             .attr("font-size", "14px")
             .attr("fill", "black")
-            .text(-x / scale);
+            .text(-x );
     }
 
     for (let y = step*2; y < height / 2; y += step*2) {
@@ -106,13 +106,13 @@ function drawLabels(svg) {
             .attr("y", centerY + y)
             .attr("font-size", "14px")
             .attr("fill", "black")
-            .text(-y / scale);
+            .text(-y );
         svg.append("text")
             .attr("x", centerX + 5)
             .attr("y", centerY - y)
             .attr("font-size", "14px")
             .attr("fill", "black")
-            .text(y / scale);
+            .text(y);
     }
 }
 
@@ -135,4 +135,84 @@ function validateForm() {
             input.style.border = "2px solid green";
         }
     });
+}
+function calculate1(){
+    let range;
+    let time;
+    let ang = parseFloat(document.getElementById("ang").value);
+    let y0 = parseFloat(document.getElementById("y0").value);
+    let v0 = parseFloat(document.getElementById("v0").value);
+    let angleInRadians = ang * Math.PI / 180;
+    let g = 9.81;
+    if(ang==0){
+        time = Math.sqrt((2 * y0) / g);
+    }
+    else{
+     time = (2*v0*Math.sin(angleInRadians))/g;
+    }
+    let maxPoint= ((v0*v0*Math.sin(angleInRadians)*Math.sin(angleInRadians))/(2*g));
+    if(ang==0){
+range = v0*time;
+    }else{
+    range = (v0 * v0 * Math.sin(2 * angleInRadians)) / g;
+    }
+let maxPointPix = maxPoint+y0;
+if(range<0){
+    let newRange = -range;
+    document.getElementById("outputtext").innerHTML = "Час польоту: " + time +" с "+ "<br>"+"Найвища точка: "  + " м." + maxPointPix +  "<br>"+ "Дальність польоту: " + newRange + " м.";
+}
+else{
+
+    document.getElementById("outputtext").innerHTML = "Час польоту: " + time +" с "+ "<br>"+ "Найвища точка: "   + maxPointPix + " м." +  "<br>"+ "Дальність польоту: " + range + " м.";
+}
+}
+
+function plotTrajectory() {
+    // Отримання SVG
+    let { svg, height, width } = add();
+    
+    let inputs = document.querySelectorAll("input");
+    let isValid = true;
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            isValid = false;
+        }
+    });
+
+    if (!isValid) {
+        alert("Будь ласка, введіть правильні значення для всіх полів.");
+        return;
+    }
+
+    let x0 = parseFloat(document.getElementById("x0").value);
+    let y0 = parseFloat(document.getElementById("y0").value);
+    let ang = parseFloat(document.getElementById("ang").value);
+    let v0 = parseFloat(document.getElementById("v0").value);
+    let color = document.getElementById("gr").value;
+
+    let angleInRadians = ang * Math.PI / 180;
+    let timeStep = 0.1;
+    let maxTime = 1000;
+    let g = 9.81;
+
+    // Масив для збереження точок траєкторії
+    let points = [];
+    
+    for (let t = 0; t <= maxTime; t += timeStep) {
+        let x = x0 + v0 * Math.cos(angleInRadians) * t;
+        let y = y0 + v0 * Math.sin(angleInRadians) * t - 0.5 * g * t * t;
+
+        if (y < 0) break; // Зупинка, якщо точка на землі
+        
+        points.push([x, height/2 +  y]);
+    }
+
+    // Створення лінії на основі точок
+    svg.selectAll("null") //selectAll-вибирає всі елементи
+    .data(points) //метод прив'язує дані
+    .enter().append("circle") //enter-створює нові елементи для тих, в кого нема елемента в Dom
+    .attr("cx", d => d[0] + width / 2)  // Переміщуємо точки на ось X
+    .attr("cy", d => height - d[1])  // Інвертуємо координати для осі Y
+    .attr("r", 3)
+    .attr("fill", color);
 }
