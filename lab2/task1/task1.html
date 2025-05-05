@@ -12,7 +12,7 @@
 <form class="form" oninput="validateForm()">
     <div>
         <label for="x0">Кордината початкової точки по осі x,(в м):</label>
-        <input type="number" id="x0" name="x0" min="-300" max="300" step="0.0001" required title="введіть значення від 0 до 300!"/>
+        <input type="number" id="x0" name="x0" min="0" max="90" step="0.0001" required title="введіть значення від 0 до 300!"/>
     </div><br/>
     <div>
         <label for="y0">Кордината початкової точки по осі y,(в м):</label>
@@ -21,7 +21,7 @@
     <label for="v0">Початкова швидкість (в м/c):</label>
     <input type="number" id="v0" name="v0" min="0" max="1000" step="0.0001" required title="введіть значення від 0 до 1000!"/><br/>
     <label for="ang">Кут (в градусах):</label>
-    <input type="number" id="ang" name="ang" min="0" max="180" step="0.0001" required title="введіть значення від 0 до 180!"/><br/>
+    <input type="number" id="ang" name="ang" min="0" max="90" step="0.0001" required title="введіть значення від 0 до 180!"/><br/>
         
     <label for="gr">Колір графіку:</label>
     <input type="color" id="gr" name="gr" title="виберіть колір" />
