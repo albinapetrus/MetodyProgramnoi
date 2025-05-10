@@ -27,7 +27,7 @@ function solution() {
 
     let tableHTML = "<table >";
 
-    tableHTML += "<tr><th>Кількість предметів, яка розглядається</th>";
+    tableHTML += "<tr><th>Вага, яка розглядається /<br/> предмет </th>";
     for (let w = 0; w <= backpackWeight; w++) {
         tableHTML += `<th>${w}</th>`;
     }
@@ -46,10 +46,11 @@ function solution() {
 
     document.getElementById('table').innerHTML = tableHTML;
 
-    document.getElementById('info').innerHTML = `
-        <p><strong>Максимальна цінність:</strong> ${dp[n][backpackWeight]}</p>
-       
-    `;
+    //document.getElementById('info').innerHTML = `
+   
+        //<p><strong>Максимальна цінність:</strong> ${dp[n][backpackWeight]}</p>
+       //</div>
+    //`;
     let w = backpackWeight;
     let selectedItems = [];
     let totalWeight = 0;
@@ -61,7 +62,7 @@ function solution() {
         }
     }
 
-    let selectedHTML = "<h3>Вибрані предмети:</h3><div>";
+    let selectedHTML = "<div class='selected'><h3>Вибрані предмети:</h3>";
     selectedItems.reverse().forEach((item, index) => {
         selectedHTML += `<p>Предмет #${index + 1}: Вага: ${item.weight}, Цінність: ${item.value}</p>`;
     });
@@ -72,5 +73,7 @@ function solution() {
     document.getElementById('selected').innerHTML = selectedHTML;
     
     document.getElementById('info').innerHTML = `
+    <div class='selected1'>
         <p><strong>Максимальна цінність:</strong> ${dp[n][backpackWeight]}</p>
+        </div>
     `;}
