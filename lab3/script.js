@@ -12,68 +12,87 @@ const n = items.length;
 
 function solution() {
     let dp = Array.from({ length: n + 1 }, () => Array(backpackWeight + 1).fill(0));
-
-    for (let i = 1; i <= n; i++) {
-        for (let w = 1; w <= backpackWeight; w++) {
-            const item = items[i - 1];
-
-            if (item.weight <= w) {
-                dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - item.weight] + item.value);
-            } else {
-                dp[i][w] = dp[i - 1][w];
-            }
-        }
-    }
-
+    const tableContainer = document.getElementById('table');
     let tableHTML = "<table >";
-
-    tableHTML += "<tr><th>Вага, яка розглядається /<br/> предмет </th>";
+    tableHTML += "<tr><th>Вага, яка розглядається/ Предмет</th>";
     for (let w = 0; w <= backpackWeight; w++) {
         tableHTML += `<th>${w}</th>`;
     }
     tableHTML += "</tr>";
-
-    for (let i = 1; i <= n; i++) {
-        const item = items[i - 1];
-        tableHTML += `<tr><th>id в масиві: ${i-1} (вага ${item.weight}, цінність ${item.value})</th>`;
+    for (let i = 0; i <= n; i++) {
+        const item = i > 0 ? items[i - 1] : { weight: 0, value: 0 };
+        tableHTML += `<tr><th>${i === 0 ? '' : `(Id:${i-1}, Вага:${item.weight}, Цінність:${item.value})`}</th>`;
         for (let w = 0; w <= backpackWeight; w++) {
-            tableHTML += `<td>${dp[i][w]}</td>`;
+            tableHTML += `<td id="cell-${i}-${w}">${dp[i][w]}</td>`;
         }
         tableHTML += "</tr>";
     }
-
     tableHTML += "</table>";
+    tableContainer.innerHTML = tableHTML;
 
-    document.getElementById('table').innerHTML = tableHTML;
-
-    //document.getElementById('info').innerHTML = `
-   
-        //<p><strong>Максимальна цінність:</strong> ${dp[n][backpackWeight]}</p>
-       //</div>
-    //`;
-    let w = backpackWeight;
-    let selectedItems = [];
-    let totalWeight = 0;
-    for (let i = n; i > 0; i--) {
-        if (dp[i][w] !== dp[i - 1][w]) {
-            selectedItems.push(items[i - 1]);
-            totalWeight += items[i - 1].weight;
-            w -= items[i - 1].weight;
+    function animateTableCell(row, col, newValue, oldValue) {
+        const cell = document.getElementById(`cell-${row}-${col}`);
+        if (cell) {
+            cell.classList.add('updating');
+            setTimeout(() => {
+                cell.textContent = newValue;
+                cell.classList.remove('updating');
+                if (newValue > oldValue) {
+                    cell.classList.add('increase');
+                    setTimeout(() => cell.classList.remove('increase'), 800);
+                } else if (newValue < oldValue) {
+                    cell.classList.add('decrease');
+                    setTimeout(() => cell.classList.remove('decrease'), 800);
+                }
+            }, 300); 
         }
     }
 
-    let selectedHTML = "<div class='selected'><h3>Вибрані предмети:</h3>";
-    selectedItems.reverse().forEach((item, index) => {
-        selectedHTML += `<p>Предмет #${index + 1}: Вага: ${item.weight}, Цінність: ${item.value}</p>`;
-    });
-    selectedHTML += `<p><strong>Загальна вага вибраних предметів:</strong> ${totalWeight}</p>`;
-    selectedHTML += `<p><strong>Вага рюкзака:</strong> ${backpackWeight}</p>`;
-    selectedHTML += "</div>";
-    
-    document.getElementById('selected').innerHTML = selectedHTML;
-    
-    document.getElementById('info').innerHTML = `
-    <div class='selected1'>
-        <p><strong>Максимальна цінність:</strong> ${dp[n][backpackWeight]}</p>
-        </div>
-    `;}
+    async function fillDPTable() {
+        let previousDP = Array.from({ length: n + 1 }, () => Array(backpackWeight + 1).fill(0));
+        for (let i = 1; i <= n; i++) {
+            for (let w = 1; w <= backpackWeight; w++) {
+                const item = items[i - 1];
+                const oldValue = dp[i][w];
+                if (item.weight <= w) {
+                    dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - item.weight] + item.value);
+                } else {
+                    dp[i][w] = dp[i - 1][w];
+                }
+                animateTableCell(i, w, dp[i][w], oldValue);
+                await new Promise(resolve => setTimeout(resolve, 100)); 
+            }
+        }
+        displayResults(dp);
+    }
+
+    function displayResults(finalDP) {
+        let w = backpackWeight;
+        let selectedItems = [];
+        let totalWeight = 0;
+        for (let i = n; i > 0; i--) {
+            if (finalDP[i][w] !== finalDP[i - 1][w]) {
+                selectedItems.push(items[i - 1]);
+                totalWeight += items[i - 1].weight;
+                w -= items[i - 1].weight;
+            }
+        }
+
+        let selectedHTML = "<div class='selected'><h3>Вибрані предмети:</h3>";
+        selectedItems.reverse().forEach((item, index) => {
+            selectedHTML += `<p>Предмет #${index + 1}: Вага: ${item.weight}, Цінність: ${item.value}</p>`;
+        });
+        selectedHTML += `<p><strong>Загальна вага:</strong> ${totalWeight}</p>`;
+        selectedHTML += `<p><strong>Вага рюкзака:</strong> ${backpackWeight}</p>`;
+        selectedHTML += "</div>";
+
+        document.getElementById('selected').innerHTML = selectedHTML;
+        document.getElementById('info').innerHTML = `
+            <div class='selected1'>
+                <p><strong>Максимальна цінність:</strong> ${finalDP[n][backpackWeight]}</p>
+            </div>
+        `;
+    }
+
+    fillDPTable();
+}
