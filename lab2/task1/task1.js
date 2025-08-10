@@ -37,14 +37,14 @@ function drawAxes() {
     
     // Горизонтальна вісь
     ctx.beginPath();
-    ctx.moveTo(0, centerY);
+    ctx.moveTo(centerX,centerY);
     ctx.lineTo(width, centerY);
     ctx.stroke();
     
     // Вертикальна вісь
     ctx.beginPath();
-    ctx.moveTo(centerX, 0);
-    ctx.lineTo(centerX, height);
+     ctx.moveTo(centerX, 0);
+    ctx.lineTo(centerX, height/2);
     ctx.stroke();
 }
 
@@ -55,11 +55,11 @@ function drawLabels() {
     // Позначки на осях
     for (let x = step*2; x < width / 2; x += step*2) {
         ctx.fillText(x , centerX + x, centerY + 15);
-        ctx.fillText(-x , centerX - x, centerY + 15);
+       /* ctx.fillText(-x , centerX - x, centerY + 15);*/
     }
     for (let y = step*2; y < height / 2; y += step*2) {
        
-        ctx.fillText(-y , centerX + 5, centerY + y);
+       /* ctx.fillText(-y , centerX + 5, centerY + y);*/
         ctx.fillText(y , centerX + 5, centerY - y);
         }
     
